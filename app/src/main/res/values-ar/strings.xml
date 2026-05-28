@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">اكس او</string>
+    <string name="game_title">لعبة اكس او</string>
+    <string name="language_label">اللغة:</string>
+    <string name="difficulty_label">مستوى الصعوبة:</string>
+    <string name="easy">سهل</string>
+    <string name="medium">متوسط</string>
+    <string name="hard">صعب</string>
+    <string name="english">English</string>
+    <string name="arabic">العربية</string>
+    <string name="start_game">ابدأ اللعبة</string>
+    <string name="your_turn">دورك</string>
+    <string name="computer_thinking">الكمبيوتر يفكر</string>
+    <string name="you_win">لقد فزت! </string>
+    <string name="computer_wins">الكمبيوتر فاز!</string>
+    <string name="draw">تعادل!</string>
+    <string name="reset_game">إعادة اللعبة</string>
+    <string name="back_settings">رجوع للإعدادات</string>
+    <string name="you">أنت</string>
+    <string name="computer">الكمبيوتر</string>
+</resources>

@@ -2,13 +2,17 @@ package com.example.gamexo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
@@ -21,16 +25,16 @@ public class GameActivity extends AppCompatActivity {
     private Button resetBtn, backBtn;
     private String difficulty;
     private boolean gameActive = true;
-    private boolean playerTurn = true;  // Player = X, Computer = O
+    private boolean playerTurn = true;
     private int moveCount = 0;
     private Random random = new Random();
 
-    // Score variables
     private int playerScore = 0;
     private int computerScore = 0;
 
     private static final String PREFS_NAME = "XOPrefs";
     private static final String KEY_DIFFICULTY = "difficulty";
+    private static final String KEY_LANGUAGE = "language";
     private static final String KEY_PLAYER_SCORE = "playerScore";
     private static final String KEY_COMPUTER_SCORE = "computerScore";
 
@@ -42,7 +46,9 @@ public class GameActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         difficulty = prefs.getString(KEY_DIFFICULTY, "medium");
 
-        // Load saved scores
+        String language = prefs.getString(KEY_LANGUAGE, "en");
+        setLocale(language);
+
         playerScore = prefs.getInt(KEY_PLAYER_SCORE, 0);
         computerScore = prefs.getInt(KEY_COMPUTER_SCORE, 0);
 
@@ -54,6 +60,7 @@ public class GameActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
 
         updateScoreDisplay();
+        updateUITexts();
         createBoard();
 
         resetBtn.setOnClickListener(v -> resetGame());
@@ -63,9 +70,26 @@ public class GameActivity extends AppCompatActivity {
         });
         Button resetScoresBtn = findViewById(R.id.resetScoresBtn);
         resetScoresBtn.setOnClickListener(v -> resetScores());
-
     }
-    
+
+    private void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = getResources().getConfiguration();
+        config.setLocale(locale);
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+    }
+
+    private void updateUITexts() {
+        if (!gameActive) return;
+        if (playerTurn) {
+            statusTv.setText(getString(R.string.your_turn));
+        } else {
+            statusTv.setText(getString(R.string.computer_thinking));
+        }
+        resetBtn.setText(getString(R.string.reset_game));
+        backBtn.setText(getString(R.string.back_settings));
+    }
 
     private void createBoard() {
         gridLayout.removeAllViews();
@@ -99,7 +123,6 @@ public class GameActivity extends AppCompatActivity {
         if (!gameActive || !playerTurn) return;
         if (!buttons[row][col].getText().toString().isEmpty()) return;
 
-        // Player move (X)
         buttons[row][col].setText("X");
         buttons[row][col].setTextColor(getColor(android.R.color.holo_blue_dark));
         moveCount++;
@@ -108,21 +131,20 @@ public class GameActivity extends AppCompatActivity {
             playerScore++;
             updateScoreDisplay();
             saveScores();
-            statusTv.setText("You win!");
+            statusTv.setText(getString(R.string.you_win));
             gameActive = false;
             return;
         }
 
         if (moveCount == 9) {
-            statusTv.setText("Draw!");
+            statusTv.setText(getString(R.string.draw));
             gameActive = false;
             return;
         }
 
         playerTurn = false;
-        statusTv.setText("Computer is thinking");
+        statusTv.setText(getString(R.string.computer_thinking));
 
-        // Computer move with delay
         new Handler().postDelayed(this::computerMove, 500);
     }
 
@@ -138,7 +160,7 @@ public class GameActivity extends AppCompatActivity {
             case "hard":
                 move = getBestMove();
                 break;
-            default: // medium
+            default:
                 if (random.nextInt(100) < 70) {
                     move = getBestMove();
                 } else {
@@ -159,19 +181,19 @@ public class GameActivity extends AppCompatActivity {
                 computerScore++;
                 updateScoreDisplay();
                 saveScores();
-                statusTv.setText("Computer wins!");
+                statusTv.setText(getString(R.string.computer_wins));
                 gameActive = false;
                 return;
             }
 
             if (moveCount == 9) {
-                statusTv.setText("Draw!");
+                statusTv.setText(getString(R.string.draw));
                 gameActive = false;
                 return;
             }
 
             playerTurn = true;
-            statusTv.setText("Your turn");
+            statusTv.setText(getString(R.string.your_turn));
         }
     }
 
@@ -295,8 +317,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void updateScoreDisplay() {
-        playerScoreTv.setText("You: " + playerScore);
-        computerScoreTv.setText("Computer: " + computerScore);
+        playerScoreTv.setText(getString(R.string.you) + ": " + playerScore);
+        computerScoreTv.setText(getString(R.string.computer) + ": " + computerScore);
     }
 
     private void saveScores() {
@@ -317,17 +339,14 @@ public class GameActivity extends AppCompatActivity {
         gameActive = true;
         playerTurn = true;
         moveCount = 0;
-        statusTv.setText("Your turn");
-
-        // Don't reset scores here - scores persist between games
-        // Only reset when user explicitly wants to reset scores
+        statusTv.setText(getString(R.string.your_turn));
     }
-
-    // Optional: Add a method to reset scores if you want a button for it
     private void resetScores() {
         playerScore = 0;
         computerScore = 0;
         updateScoreDisplay();
         saveScores();
+
+        Toast.makeText(this, "Scores reset to zero!", Toast.LENGTH_SHORT).show();
     }
 }

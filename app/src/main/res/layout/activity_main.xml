@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#7972C7"
     android:padding="24dp"
-    android:gravity="center"
-    android:background="#7389DC">
+    android:gravity="center">
 
     <TextView
+        android:id="@+id/titleTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="XO Game"
@@ -16,6 +17,36 @@
         android:layout_marginBottom="40dp"/>
 
     <TextView
+        android:id="@+id/languageLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Language:"
+        android:textSize="18sp"/>
+
+    <RadioGroup
+        android:id="@+id/languageRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp">
+
+        <RadioButton
+            android:id="@+id/radioEnglish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="English"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/radioArabic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="العربية"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/difficultyLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Difficulty Level:"
@@ -46,6 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hard"/>
+
     </RadioGroup>
 
     <Button

@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#7972C7"
     android:padding="16dp"
     android:gravity="center">
 
-    <!-- عرض النتيجة -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,7 +60,15 @@
         android:layout_height="wrap_content"
         android:text="Reset Game"
         android:textSize="16sp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/resetScoresBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset Scores"
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp"/>
 
     <Button
         android:id="@+id/backBtn"
@@ -68,14 +76,5 @@
         android:layout_height="wrap_content"
         android:text="Back to Settings"
         android:textSize="16sp"/>
-
-    <!-- زر تصفير النتائج - اختياري -->
-    <Button
-        android:id="@+id/resetScoresBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reset Scores"
-        android:textSize="14sp"
-        android:layout_marginTop="8dp"/>
 
 </LinearLayout>
